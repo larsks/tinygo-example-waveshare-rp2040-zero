@@ -4,7 +4,9 @@
 // Package machine provides a mock implementation for testing
 package machine
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Pin represents a single GPIO pin
 type Pin uint8
@@ -12,6 +14,7 @@ type Pin uint8
 // PinMode sets the pin mode
 type PinMode uint8
 
+// PinState records the state of a mock pin
 type PinState struct {
 	mode  PinMode
 	value bool
@@ -27,35 +30,24 @@ type PinConfig struct {
 	Mode PinMode
 }
 
-var pins []PinState
-
-func registerPin(p Pin) {
-	if len(pins) < int(p)+1 {
-		newPins := make([]PinState, int(p)+1)
-		copy(newPins, pins)
-		pins = newPins
-	}
-}
+var pins PinCollection
 
 // Configure sets up the pin with the given configuration
 func (p Pin) Configure(config PinConfig) {
 	fmt.Printf("[MOCK] Configuring pin %d with mode %d\n", p, config.Mode)
-	registerPin(p)
-	pins[p].mode = config.Mode
+	pins.Configure(p, config)
 }
 
 // High sets the pin to high
 func (p Pin) High() {
 	fmt.Printf("[MOCK] Setting pin %d HIGH\n", p)
-	registerPin(p)
-	pins[p].value = true
+	pins.SetValue(p, true)
 }
 
 // Low sets the pin to low
 func (p Pin) Low() {
 	fmt.Printf("[MOCK] Setting pin %d LOW\n", p)
-	registerPin(p)
-	pins[p].value = false
+	pins.SetValue(p, false)
 }
 
 // Set sets the pin to the given value
@@ -68,9 +60,8 @@ func (p Pin) Set(value bool) {
 }
 
 func (p Pin) Get() bool {
-	fmt.Printf("[MOCK] Get value of pin %d", p)
-	registerPin(p)
-	return pins[p].value
+	fmt.Printf("[MOCK] Get value of pin %d\n", p)
+	return pins.GetValue(p)
 }
 
 // GPIO pin definitions
@@ -80,11 +71,11 @@ const (
 )
 
 func ReadTemperature() int32 {
-	fmt.Printf("[MOCK] Read temperature")
+	fmt.Printf("[MOCK] Read temperature\n")
 	return 0
 }
 
 func ChipVersion() uint8 {
-	fmt.Printf("[MOCK] Get chip version")
+	fmt.Printf("[MOCK] Get chip version\n")
 	return 0
 }
