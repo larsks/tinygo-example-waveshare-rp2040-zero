@@ -78,3 +78,13 @@ const (
 	GPIO16 Pin = 16
 	// Add other pins as needed
 )
+
+func ReadTemperature() int32 {
+	fmt.Printf("[MOCK] Read temperature")
+	return 0
+}
+
+func ChipVersion() uint8 {
+	fmt.Printf("[MOCK] Get chip version")
+	return 0
+}

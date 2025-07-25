@@ -3,7 +3,9 @@
 
 package main
 
-import mock "example/internal/machine"
+import (
+	mock "example/internal/machine"
+)
 
 // Re-export mock machine types for consistent access
 type Pin = mock.Pin
@@ -15,3 +17,18 @@ const (
 	PinOutput = mock.PinOutput
 	GPIO16    = mock.GPIO16
 )
+
+func ReadTemperature() int32 {
+	return mock.ReadTemperature()
+}
+
+func ChipVersion() uint8 {
+	return mock.ChipVersion()
+}
+
+func getMachineInfo() *Info {
+	return &Info{
+		temp:        mock.ReadTemperature(),
+		chipVersion: mock.ChipVersion(),
+	}
+}

@@ -15,3 +15,10 @@ const (
 	PinOutput = machine.PinOutput
 	GPIO16    = machine.GPIO16
 )
+
+func getMachineInfo() *Info {
+	return &Info{
+		temp:        machine.ReadTemperature(),
+		chipVersion: machine.ChipVersion(),
+	}
+}
