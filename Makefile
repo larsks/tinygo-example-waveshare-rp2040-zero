@@ -8,7 +8,7 @@ build:
 # Flash to device
 .PHONY: flash
 flash:
-	tinygo flash -target $(TARGET) main.go
+	tinygo flash -target $(TARGET) .
 
 # Run tests (uses mock machine package)
 .PHONY: test
